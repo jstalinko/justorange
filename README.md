@@ -26,7 +26,8 @@ This starter kit is ideal for projects that require a robust and flexible admin 
 4. Run `php artisan key:generate` to set the application key.
 5. Run `php artisan migrate` to build the database.
 6. Run `php artisan shield:install`
-7. Run `php artisan serve` to start the development server.
+7. Run `npm install & npm run dev`
+8. Run `php artisan serve` to start the development server.
 
 With JustOrange, start your Laravel projects faster and more efficiently!
 
