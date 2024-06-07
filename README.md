@@ -14,6 +14,8 @@ JustOrange is a Laravel starter kit integrated with the Filament Admin Panel. Th
 - **Tailwind CSS**: Integrated for responsive and customizable design.
 - **Ready-to-Use Environment Configuration**: Includes basic configurations for database, mail, and more that can be easily customized as per project needs.
 - **Authentication and Authorization**: Pre-configured authentication and authorization system using Spatie Permission.
+- **Inertia.js with Vue3**: Utilizes Inertia.js to seamlessly integrate Vue components without the need for a full single-page application, enhancing the user experience with smooth transitions and state management.
+
 
 This starter kit is ideal for projects that require a robust and flexible admin dashboard with the ease of quick initial setup.
 
