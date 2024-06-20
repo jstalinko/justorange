@@ -17,7 +17,7 @@
             </div>
 
             <div class="text-gray-400 font-medium text-sm md:text-xl lg:text-2xl mt-8">
-                Laravel + InertiaJS + VueJS + TailwindCSS
+                Laravel + Filament + InertiaJS + VueJS + TailwindCSS
             </div>
         </div>
 
