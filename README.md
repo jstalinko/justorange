@@ -15,6 +15,7 @@ JustOrange is a Laravel starter kit integrated with the Filament Admin Panel. Th
 - **Ready-to-Use Environment Configuration**: Includes basic configurations for database, mail, and more that can be easily customized as per project needs.
 - **Authentication and Authorization**: Pre-configured authentication and authorization system using Spatie Permission.
 - **Inertia.js with Vue3**: Utilizes Inertia.js to seamlessly integrate Vue components without the need for a full single-page application, enhancing the user experience with smooth transitions and state management.
+- **Bun Package Manager**: JustOrange use bun for nodejs packange manager
 
 
 This starter kit is ideal for projects that require a robust and flexible admin dashboard with the ease of quick initial setup.
@@ -22,12 +23,8 @@ This starter kit is ideal for projects that require a robust and flexible admin 
 ### How to Use:
 1. Clone this repository.
 2. Run `composer install` to install dependencies.
-3. Copy `.env.example` to `.env` and configure environment settings.
-4. Run `php artisan key:generate` to set the application key.
-5. Run `php artisan migrate` to build the database.
-6. Run `php artisan shield:install`
-7. Run `npm install & npm run dev`
-8. Run `php artisan serve` to start the development server.
+3. Run `php artisan justorange:init`
+4. Run `php artisan justorange:dev`
 
 With JustOrange, start your Laravel projects faster and more efficiently!
 
