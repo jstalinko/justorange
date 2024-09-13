@@ -1,0 +1,23 @@
+{
+    "site_url": "localhost:8000",
+    "site_name": "JustOrange",
+    "site_description": "a laravel full-stack starterkit",
+    "icon": "01J7MYVVZ4F257P8SY6PFCSTD4.png",
+    "logo": "01J7MYVVZ5A96JW9N55C6HC9BQ.svg",
+    "sosmed": {
+        "facebook_url": "https:\/\/facebook.com",
+        "instagram_url": "#",
+        "titktok_url": "#",
+        "whatsapp_url": "#"
+    },
+    "meta_setting": [
+        {
+            "name": "author",
+            "content": "justorange"
+        },
+        {
+            "name": "description",
+            "content": "justorange"
+        }
+    ]
+}
