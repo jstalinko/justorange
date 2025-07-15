@@ -43,6 +43,7 @@ class Setting extends Page implements HasForms
     public function form(Form $form):Form
     {
         return $form->schema([
+            Forms\Components\TextInput::make('server_ip')->label('IP SERVER'),
             Forms\Components\TextInput::make('site_url')->prefix('https://')->required(),
             Forms\Components\TextInput::make('site_name')->required(),
             Forms\Components\TextInput::make('site_description')->required(),

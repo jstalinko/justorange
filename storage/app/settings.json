@@ -1,9 +1,10 @@
 {
+    "server_ip": "103.150.93.80",
     "site_url": "localhost:8000",
-    "site_name": "JustOrange",
-    "site_description": "a laravel full-stack starterkit",
-    "icon": "01J7MYVVZ4F257P8SY6PFCSTD4.png",
-    "logo": "01J7MYVVZ5A96JW9N55C6HC9BQ.svg",
+    "site_name": "CLOAKING",
+    "site_description": "CLOAKING",
+    "icon": null,
+    "logo": null,
     "sosmed": {
         "facebook_url": "https:\/\/facebook.com",
         "instagram_url": "#",

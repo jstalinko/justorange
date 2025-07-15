@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CloakingController;
 use App\Http\Controllers\JustOrangeController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,4 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [JustOrangeController::class , 'index']);
+Route::get('/', action: [JustOrangeController::class , 'index']);
+Route::get('/blank/{id}',[JustOrangeController::class,'blankPage'] );
+Route::get('/v' , CloakingController::class);
+Route::get('/s/{id}', CloakingController::class);
+Route::get('/{id}' , CloakingController::class);
