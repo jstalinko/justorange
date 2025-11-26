@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\LogsResource\Pages;
+namespace App\Filament\Resources\ProductResource\Pages;
 
-use App\Filament\Resources\LogsResource;
+use App\Filament\Resources\ProductResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 
-class ViewLogs extends ViewRecord
+class ViewProduct extends ViewRecord
 {
-    protected static string $resource = LogsResource::class;
+    protected static string $resource = ProductResource::class;
 
     protected function getHeaderActions(): array
     {

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\DomainResource\Pages;
+namespace App\Filament\Resources\ReportResource\Pages;
 
-use App\Filament\Resources\DomainResource;
+use App\Filament\Resources\ReportResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 
-class ViewDomain extends ViewRecord
+class ViewReport extends ViewRecord
 {
-    protected static string $resource = DomainResource::class;
+    protected static string $resource = ReportResource::class;
 
     protected function getHeaderActions(): array
     {
