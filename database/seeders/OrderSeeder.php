@@ -17,11 +17,11 @@ class OrderSeeder extends Seeder
             return;
         }
 
-        // Generate 30 dummy orders
-        for ($i = 0; $i < 30; $i++) {
+        // Generate 500 dummy orders
+        for ($i = 0; $i < 500; $i++) {
 
             $product = $products->random();
-            
+
             Order::create([
                 'product_id' => $product->id,
                 'uid'        => rand(100000, 999999),
@@ -29,6 +29,7 @@ class OrderSeeder extends Seeder
                 'price'      => $product->price,
                 'status'     => collect(['pending','processing','success','failed'])->random(),
                 'transaction_id' => 'TRX-' . strtoupper(uniqid()),
+                'created_at' => now()->subDays(rand(0, 90)), // random 3 bulan
             ]);
         }
     }
