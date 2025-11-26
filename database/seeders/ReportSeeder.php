@@ -5,11 +5,14 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Order;
 use App\Models\Report;
+use Carbon\Carbon;
 
 class ReportSeeder extends Seeder
 {
     public function run(): void
     {
+        Report::truncate();
+
         $dates = Order::selectRaw('DATE(created_at) as date')
             ->groupBy('date')
             ->pluck('date');
