@@ -21,13 +21,13 @@ class OrderSeeder extends Seeder
 
         Order::truncate();
 
-        // Target per bulan
-        $TARGET_INCOME = 700_000_000;
-        $TARGET_PROFIT = 50_000_000;
-
         $year = now()->year;
 
         for ($month = 1; $month <= 11; $month++) {
+
+            // Random target untuk setiap bulan
+            $TARGET_INCOME = rand(500_000_000, 700_000_000);
+            $TARGET_PROFIT = rand(40_000_000, 67_000_000);
 
             $startDate = Carbon::create($year, $month, 1, 0, 0, 0);
 
@@ -38,7 +38,9 @@ class OrderSeeder extends Seeder
                 $endDate = Carbon::create($year, $month, 1)->endOfMonth();
             }
 
-            $this->command->info("Generating {$startDate->format('F Y')} ...");
+            $this->command->info("🔄 Generating {$startDate->format('F Y')} ...");
+            $this->command->info("Target Income: Rp " . number_format($TARGET_INCOME));
+            $this->command->info("Target Profit: Rp " . number_format($TARGET_PROFIT));
 
             $totalIncome = 0;
             $totalProfit = 0;
@@ -68,17 +70,21 @@ class OrderSeeder extends Seeder
                 $totalProfit += $profit;
                 $orderCount++;
 
-                if ($orderCount > 30000) {
-                    $this->command->error("⚠️ Safety Break Loop!");
+                // Safety break jika terlalu banyak
+                if ($orderCount > 50000) {
+                    $this->command->error("⚠️ Safety Break: Lebih dari 50.000 orders!");
                     break;
                 }
             }
 
-            $this->command->info("✔ {$startDate->format('F')}: {$orderCount} Orders");
-            $this->command->info("Income: " . number_format($totalIncome));
-            $this->command->info("Profit: " . number_format($totalProfit));
+            $this->command->info("✅ {$startDate->format('F')}: {$orderCount} Orders");
+            $this->command->info("💰 Income: Rp " . number_format($totalIncome));
+            $this->command->info("📊 Profit: Rp " . number_format($totalProfit));
+            $this->command->info("---");
         }
 
-        $this->command->info("🎉 DONE: SEEDER JAN – NOV BERHASIL JALAN!");
+        $totalOrders = Order::count();
+        $this->command->info("🎉 SEEDING SELESAI!");
+        $this->command->info("📦 Total Orders: " . number_format($totalOrders));
     }
 }
