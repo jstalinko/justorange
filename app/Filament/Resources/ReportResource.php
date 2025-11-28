@@ -72,7 +72,7 @@ class ReportResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -91,6 +91,12 @@ class ReportResource extends Resource
             //
         ];
     }
+    public static function getWidgets(): array
+{
+    return [
+        \App\Filament\Resources\ReportResource\Widgets\ReportStatsOverview::class,
+    ];
+}
 
     public static function getPages(): array
     {

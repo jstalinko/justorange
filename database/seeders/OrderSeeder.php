@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Order;
 use App\Models\Product;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class OrderSeeder extends Seeder
 {
@@ -13,7 +14,7 @@ class OrderSeeder extends Seeder
     {
         $products = Product::all();
 
-        if ($products->count() == 0) {
+        if ($products->count() === 0) {
             $this->command->warn("⚠️ Jalankan ProductSeeder dulu!");
             return;
         }
@@ -21,43 +22,37 @@ class OrderSeeder extends Seeder
         Order::truncate();
 
         // Target per bulan
-        $TARGET_INCOME = 700_000_000; // 700 juta
-        $TARGET_PROFIT = 50_000_000;  // 50 juta
+        $TARGET_INCOME = 700_000_000;
+        $TARGET_PROFIT = 50_000_000;
 
-        // Range Januari sampai 28 November tahun sekarang
         $year = now()->year;
 
-        $months = [
-            '01','02','03','04','05','06','07','08','09','10','11'
-        ];
+        for ($month = 1; $month <= 11; $month++) {
 
-        foreach ($months as $month) {
-
-            $startDate = Carbon::create($year, $month, 1);
+            $startDate = Carbon::create($year, $month, 1, 0, 0, 0);
 
             // November hanya sampai tanggal 28
-            if ($month == '11') {
+            if ($month === 11) {
                 $endDate = Carbon::create($year, 11, 28, 23, 59, 59);
             } else {
-                $endDate = $startDate->copy()->endOfMonth();
+                $endDate = Carbon::create($year, $month, 1)->endOfMonth();
             }
 
-            $this->command->info("⏳ Generating orders for month: {$startDate->format('F')}");
+            $this->command->info("Generating {$startDate->format('F Y')} ...");
 
             $totalIncome = 0;
             $totalProfit = 0;
             $orderCount  = 0;
 
-            while ($totalIncome < $TARGET_INCOME || $totalProfit < $TARGET_PROFIT) {
+            // Gunakan AND supaya tidak endless loop
+            while ($totalIncome < $TARGET_INCOME && $totalProfit < $TARGET_PROFIT) {
 
                 $product = $products->random();
 
                 $income = $product->price;
                 $profit = $product->price - $product->base_price;
 
-                $randomDate = Carbon::createFromTimestamp(
-                    rand($startDate->timestamp, $endDate->timestamp)
-                );
+                $randomTimestamp = rand($startDate->timestamp, $endDate->timestamp);
 
                 Order::create([
                     'product_id'     => $product->id,
@@ -66,22 +61,24 @@ class OrderSeeder extends Seeder
                     'price'          => $product->price,
                     'status'         => 'success',
                     'transaction_id' => 'TRX-' . strtoupper(uniqid()),
-                    'created_at'     => $randomDate,
+                    'created_at'     => Carbon::createFromTimestamp($randomTimestamp),
                 ]);
 
                 $totalIncome += $income;
                 $totalProfit += $profit;
                 $orderCount++;
 
-                if ($orderCount > 25000) break; // Safety limit
+                if ($orderCount > 30000) {
+                    $this->command->error("⚠️ Safety Break Loop!");
+                    break;
+                }
             }
 
-            $this->command->info("✔ {$startDate->format('F')}: Orders = {$orderCount}");
+            $this->command->info("✔ {$startDate->format('F')}: {$orderCount} Orders");
             $this->command->info("Income: " . number_format($totalIncome));
             $this->command->info("Profit: " . number_format($totalProfit));
-            $this->command->info("-----------------------------");
         }
 
-        $this->command->info("🎉 DONE: ORDER SEEDER PER-BULAN UNTUK JAN - NOV");
+        $this->command->info("🎉 DONE: SEEDER JAN – NOV BERHASIL JALAN!");
     }
 }

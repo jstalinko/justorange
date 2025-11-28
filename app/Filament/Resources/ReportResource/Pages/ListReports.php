@@ -16,4 +16,18 @@ class ListReports extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    public function getFilters(): array
+    {
+        return [
+            'month' => now(),
+        ];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            \App\Filament\Resources\ReportResource\Widgets\ReportStatsOverview::class,
+        ];
+    }
 }
