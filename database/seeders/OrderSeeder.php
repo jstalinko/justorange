@@ -18,39 +18,70 @@ class OrderSeeder extends Seeder
             return;
         }
 
-        $targetIncome = 700_000_000; // 700 juta
-        $targetProfit = 50_000_000;  // 50 juta
-        $totalIncome  = 0;
-        $totalProfit  = 0;
+        Order::truncate();
 
-        $orderCount = 0;
+        // Target per bulan
+        $TARGET_INCOME = 700_000_000; // 700 juta
+        $TARGET_PROFIT = 50_000_000;  // 50 juta
 
-        while ($totalIncome < $targetIncome || $totalProfit < $targetProfit) {
+        // Range Januari sampai 28 November tahun sekarang
+        $year = now()->year;
 
-            $product = $products->random();
+        $months = [
+            '01','02','03','04','05','06','07','08','09','10','11'
+        ];
 
-            $income = $product->price;
-            $profit = $product->price - $product->base_price;
+        foreach ($months as $month) {
 
-            Order::create([
-                'product_id'     => $product->id,
-                'uid'            => rand(100000, 999999),
-                'zone_id'        => rand(1000, 9999),
-                'price'          => $product->price,
-                'status'         => 'success', // karena butuh income
-                'transaction_id' => 'TRX-' . strtoupper(uniqid()),
-                'created_at'     => Carbon::now()->subDays(rand(0, 90)),
-            ]);
+            $startDate = Carbon::create($year, $month, 1);
 
-            $totalIncome += $income;
-            $totalProfit += $profit;
-            $orderCount++;
+            // November hanya sampai tanggal 28
+            if ($month == '11') {
+                $endDate = Carbon::create($year, 11, 28, 23, 59, 59);
+            } else {
+                $endDate = $startDate->copy()->endOfMonth();
+            }
 
-            if ($orderCount > 20000) break; // safety
+            $this->command->info("⏳ Generating orders for month: {$startDate->format('F')}");
+
+            $totalIncome = 0;
+            $totalProfit = 0;
+            $orderCount  = 0;
+
+            while ($totalIncome < $TARGET_INCOME || $totalProfit < $TARGET_PROFIT) {
+
+                $product = $products->random();
+
+                $income = $product->price;
+                $profit = $product->price - $product->base_price;
+
+                $randomDate = Carbon::createFromTimestamp(
+                    rand($startDate->timestamp, $endDate->timestamp)
+                );
+
+                Order::create([
+                    'product_id'     => $product->id,
+                    'uid'            => rand(100000, 999999),
+                    'zone_id'        => rand(1000, 9999),
+                    'price'          => $product->price,
+                    'status'         => 'success',
+                    'transaction_id' => 'TRX-' . strtoupper(uniqid()),
+                    'created_at'     => $randomDate,
+                ]);
+
+                $totalIncome += $income;
+                $totalProfit += $profit;
+                $orderCount++;
+
+                if ($orderCount > 25000) break; // Safety limit
+            }
+
+            $this->command->info("✔ {$startDate->format('F')}: Orders = {$orderCount}");
+            $this->command->info("Income: " . number_format($totalIncome));
+            $this->command->info("Profit: " . number_format($totalProfit));
+            $this->command->info("-----------------------------");
         }
 
-        $this->command->info("Order generated: {$orderCount}");
-        $this->command->info("Total Income: " . number_format($totalIncome));
-        $this->command->info("Total Profit: " . number_format($totalProfit));
+        $this->command->info("🎉 DONE: ORDER SEEDER PER-BULAN UNTUK JAN - NOV");
     }
 }
