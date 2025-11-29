@@ -27,7 +27,7 @@ class OrderSeeder extends Seeder
         for ($month = 1; $month <= 11; $month++) {
 
             // Random income target
-            $TARGET_INCOME = rand(500_000_000, 700_000_000);
+            $TARGET_INCOME = rand(750_000_000, 1_700_000_000);
 
             // Persentase profit antara 4% sampai 7%
             $PERCENT = rand(4, 7) / 100; // 4% – 7%
