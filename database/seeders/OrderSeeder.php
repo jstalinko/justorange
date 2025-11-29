@@ -19,19 +19,24 @@ class OrderSeeder extends Seeder
             return;
         }
 
+        // TRUNCATE terlebih dahulu
         Order::truncate();
 
         $year = now()->year;
 
         for ($month = 1; $month <= 11; $month++) {
 
-            // Random target untuk setiap bulan
+            // Random income target
             $TARGET_INCOME = rand(500_000_000, 700_000_000);
-            $TARGET_PROFIT = rand(40_000_000, 67_000_000);
+
+            // Persentase profit antara 4% sampai 7%
+            $PERCENT = rand(4, 7) / 100; // 4% – 7%
+
+            // Profit target = persentase × income target
+            $TARGET_PROFIT = $TARGET_INCOME * $PERCENT;
 
             $startDate = Carbon::create($year, $month, 1, 0, 0, 0);
 
-            // November hanya sampai tanggal 28
             if ($month === 11) {
                 $endDate = Carbon::create($year, 11, 28, 23, 59, 59);
             } else {
@@ -41,12 +46,12 @@ class OrderSeeder extends Seeder
             $this->command->info("🔄 Generating {$startDate->format('F Y')} ...");
             $this->command->info("Target Income: Rp " . number_format($TARGET_INCOME));
             $this->command->info("Target Profit: Rp " . number_format($TARGET_PROFIT));
+            $this->command->info("Profit Percent: " . ($PERCENT * 100) . "%");
 
             $totalIncome = 0;
             $totalProfit = 0;
             $orderCount  = 0;
 
-            // Gunakan AND supaya tidak endless loop
             while ($totalIncome < $TARGET_INCOME && $totalProfit < $TARGET_PROFIT) {
 
                 $product = $products->random();
@@ -70,7 +75,6 @@ class OrderSeeder extends Seeder
                 $totalProfit += $profit;
                 $orderCount++;
 
-                // Safety break jika terlalu banyak
                 if ($orderCount > 50000) {
                     $this->command->error("⚠️ Safety Break: Lebih dari 50.000 orders!");
                     break;
