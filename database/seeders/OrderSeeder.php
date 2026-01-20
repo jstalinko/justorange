@@ -22,15 +22,15 @@ class OrderSeeder extends Seeder
         // TRUNCATE terlebih dahulu
         Order::truncate();
 
-        $year = now()->year;
+        $year = 2025;
 
-        for ($month = 1; $month <= 11; $month++) {
+        for ($month = 1; $month <= 10; $month++) {
 
             // Random income target
-            $TARGET_INCOME = rand(750_000_000, 1_700_000_000);
+            $TARGET_INCOME = rand(750_000_000, 1_200_000_000);
 
             // Persentase profit antara 4% sampai 7%
-            $PERCENT = rand(4, 7) / 100; // 4% – 7%
+            $PERCENT = rand(3, 6) / 100; // 4% – 7%
 
             // Profit target = persentase × income target
             $TARGET_PROFIT = $TARGET_INCOME * $PERCENT;
@@ -90,5 +90,7 @@ class OrderSeeder extends Seeder
         $totalOrders = Order::count();
         $this->command->info("🎉 SEEDING SELESAI!");
         $this->command->info("📦 Total Orders: " . number_format($totalOrders));
+
+        $this->call(Order2Seeder::class);
     }
 }
